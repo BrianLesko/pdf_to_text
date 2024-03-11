@@ -1,37 +1,44 @@
 ##################################################
-# About the author: Brian Lesko is a robotics engineer and recent graduate
-# This code implements some some gui shortcuts that are used to customize the app.py file, mainly using the low code streamlit library.
+# Brian Lesko  12/3/2023
+# This code implements some some gui shortcuts that are used to customize the UI of the app.py file - using the low code streamlit library.
 
 import streamlit as st
 
-# Version 1.0.0
-
-class gui():
+class gui:
     def __init__(self):
         pass
-    def about(self, photo = 'docs/bl.png', author = "Brian", text = "In this code we ... "):
+
+    def setup(self,wide=False, text="In this code we ... "):
+        self.clean_format(wide=wide)
+        self.about(text=text)
+
+    def about(self, photo_path = 'docs/bl.png', author = "Brian", text = "In this code we ... "):
         with st.sidebar:
             col1, col2, = st.columns([1,5], gap="medium")
             with col1:
-                st.image(photo)
+                self.add_custom_css()
+                st.image(photo_path)
             with col2:
-                st.write(f""" 
-                Hey it's {author}, \n
-                {text}
-                """)
+                st.write(f"Hey it's {author},   \n  \n  {text}")
+            # Socials
+            self.add_custom_css_socials()  # Call the function to add the CSS
             col1, col2, col3, col4, col5, col6 = st.columns([1.1,1,1,1,1,1.5], gap="medium")
-            with col2: # Twitter
-                st.write("[![X](https://raw.githubusercontent.com/BrianLesko/BrianLesko/f7be693250033b9d28c2224c9c1042bb6859bfe9/.socials/svg-335095-blue/x-logo-blue.svg)](https://twitter.com/BrianJosephLeko)")
-            with col3: # GITHUB
-                st.write("[![Github](https://raw.githubusercontent.com/BrianLesko/BrianLesko/f7be693250033b9d28c2224c9c1042bb6859bfe9/.socials/svg-335095-blue/github-mark-blue.svg)](https://github.com/BrianLesko)")
-            with col4: # LINKEDIN
-                st.write("[![LinkedIn](https://raw.githubusercontent.com/BrianLesko/BrianLesko/f7be693250033b9d28c2224c9c1042bb6859bfe9/.socials/svg-335095-blue/linkedin-icon-blue.svg)](https://www.linkedin.com/in/brianlesko/)")
-            with col5: # YOUTUBE
-                "." #st.write("[![LinkedIn](https://raw.githubusercontent.com/BrianLesko/BrianLesko/f7be693250033b9d28c2224c9c1042bb6859bfe9/.socials/svg-335095-blue/yt-logo-blue.svg)](https://www.linkedin.com/in/brianlesko/)")
-            with col6: # BLOG Visual Study Code
-                "." #"[![VSC]()](https://www.visualstudycode.com/)"
+            with col2:  # Twitter
+                st.markdown("<a href='https://twitter.com/BrianJosephLeko' class='social-img'><img src='https://raw.githubusercontent.com/BrianLesko/BrianLesko/f7be693250033b9d28c2224c9c1042bb6859bfe9/.socials/svg-335095-blue/x-logo-blue.svg'></a>", unsafe_allow_html=True)
+            with col3:  # GitHub
+                st.markdown("<a href='https://github.com/BrianLesko' class='social-img'><img src='https://raw.githubusercontent.com/BrianLesko/BrianLesko/f7be693250033b9d28c2224c9c1042bb6859bfe9/.socials/svg-335095-blue/github-mark-blue.svg'></a>", unsafe_allow_html=True)
+            with col4:  # LinkedIn
+                st.markdown("<a href='https://www.linkedin.com/in/brianlesko/' class='social-img'><img src='https://raw.githubusercontent.com/BrianLesko/BrianLesko/f7be693250033b9d28c2224c9c1042bb6859bfe9/.socials/svg-335095-blue/linkedin-icon-blue.svg'></a>", unsafe_allow_html=True)
+            #with col5:  # YouTube (assuming you have a correct link and image)
+                #st.markdown("<a href='https://www.youtube.com/user/YourChannel' class='social-img'><img src='https://raw.githubusercontent.com/BrianLesko/BrianLesko/f7be693250033b9d28c2224c9c1042bb6859bfe9/.socials/svg-335095-blue/yt-logo-blue.svg'></a>", unsafe_allow_html=True)
+            #with col6:  # Placeholder for Blog Visual Study Code
+                #st.markdown("<a href='https://www.visualstudycode.com/' class='social-img'>Blog Visual Study Code</a>", unsafe_allow_html=True)  # Replace with your actual image and link if needed
 
-    def clean_format(self):
+            st.write("---")
+            
+
+    def clean_format(self, wide=False):
+        if wide == True: st.set_page_config(layout='wide')
         hide_st_style = """
                 <style>
                 #MainMenu {visibility: hidden;}
@@ -42,18 +49,34 @@ class gui():
                 """
         st.markdown(hide_st_style, unsafe_allow_html=True)
 
-    def display_existing_messages(self,intro = "Type in the chat box to embed some text"):
-        if "messages" not in st.session_state:
-            st.session_state["messages"] = [{"role": "assistant", "content": intro}]
-        for msg in st.session_state.messages:
+    def display_existing_messages(self,state):
+        for msg in state.messages:
             st.chat_message(msg["role"]).write(msg["content"])
 
-    def input_api_key(self):
-        st.write('  ') 
-        st.markdown("""---""")
-        if not openai_api_key:
-            openai_api_key = st.text_input("# OpenAI API Key", key="chatbot_api_key", type="password")
-            col1, col2 = st.columns([1,5], gap="medium")
-            with col2:
-                "[Get an OpenAI API key](https://platform.openai.com/account/api-keys)"
-        return openai_api_key
+    def add_custom_css_socials(self):
+        st.markdown("""
+            <style>
+            .social-img img {
+                filter: grayscale(100%); /* Converts images to grayscale */
+                transition: filter 0.3s; /* Smooth transition for the filter effect */
+            }
+            .social-img img:hover {
+                filter: grayscale(0%) brightness(110%) saturate(140%); /* Blue tint on hover */
+            }
+            </style>
+            """, unsafe_allow_html=True)
+        
+    def add_custom_css(self):
+        st.markdown("""
+            <style>
+            .social-img img {
+                filter: grayscale(100%); /* Converts images to grayscale */
+                transition: filter 0.3s; /* Smooth transition for the filter effect */
+            }
+            .social-img img:hover {
+                filter: grayscale(0%) sepia(100%) hue-rotate(200deg) brightness(90%) saturate(100%); /* Blue tint on hover */
+            }
+            </style>
+            """, unsafe_allow_html=True)
+
+
