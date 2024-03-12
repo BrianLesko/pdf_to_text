@@ -4,10 +4,6 @@ This code implements text parsing from a PDF File using Apple's Objective C prog
 
 &nbsp;
 
-<div align="center"><img src="docs/preview.png" width="800"></div>
-
-&nbsp;
-
 ## Dependencies
 
 This code uses the following libraries:
