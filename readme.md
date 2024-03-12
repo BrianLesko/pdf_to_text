@@ -1,5 +1,5 @@
 
-# Text Extraction from an Epub file
+# Text Extraction from an PDF file
 This code implements text parsing from a PDF File using Apple's Objective C programming language wrapped in Python. 
 
 &nbsp;
