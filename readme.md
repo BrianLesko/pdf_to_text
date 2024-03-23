@@ -1,6 +1,6 @@
 
 # Text Extraction from an PDF file
-This code implements text parsing from a PDF File using Apple's Objective C programming language wrapped in Python. 
+Extract text from a PDF file, works on mac computers only (Written in a Pythonic interface of Apple's Objective C). Written for learning purposes.
 
 &nbsp;
 
